@@ -33,7 +33,7 @@ abstract class eccBaseController
 
 		if (!is_object($this->ecc)) {
 			$corePath = $modx->getOption('ecc_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/ecc/');
-			$this->ecc = $modx->getService('ecc', 'EasyController', $corePath . 'model/ecc/', array('core_path' => $corePath));
+			$this->ecc = $modx->getService('ecc', 'ecc', $corePath . 'model/ecc/', array('core_path' => $corePath));
 		}
 
 		$this->opts = &$this->ecc->opts;
