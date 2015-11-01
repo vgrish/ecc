@@ -32,8 +32,8 @@ abstract class eccBaseController
 		$this->ecc = $this->modx->ecc;
 
 		if (!is_object($this->ecc)) {
-			$corePath = $modx->getOption('easycontroller_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/easycontroller/');
-			$this->ecc = $modx->getService('easycontroller', 'EasyController', $corePath . 'model/easycontroller/', array('core_path' => $corePath));
+			$corePath = $modx->getOption('ecc_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/ecc/');
+			$this->ecc = $modx->getService('ecc', 'EasyController', $corePath . 'model/ecc/', array('core_path' => $corePath));
 		}
 
 		$this->opts = &$this->ecc->opts;
@@ -133,7 +133,7 @@ abstract class eccBaseController
 	/** @inheritdoc} */
 	public function getWrapperId()
 	{
-		$wrapperId = 'id';
+		$wrapperId = array();
 		foreach (array('namespace', 'controller', 'path', 'location') as $o) {
 			$wrapperId[] = $this->opts[$o];
 		}
