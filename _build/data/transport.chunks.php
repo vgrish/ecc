@@ -3,7 +3,7 @@
 $chunks = array();
 
 $tmp = array(
-	'tpl.ecc.wrapper' => array(
+	'ecc.wrapper' => array(
 		'file' => 'wrapper',
 		'description' => '',
 	),

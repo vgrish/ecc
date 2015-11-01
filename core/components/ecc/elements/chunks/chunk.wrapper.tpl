@@ -1,4 +1,5 @@
-<p>
-	<strong>[[+name]]</strong> -
-	<small>[[+description]]</small>
-</p>
+<div class="ecc-wrapper">
+	<div id="[[+wrapperId]]">
+		<div class="ecc-preloader"></div>
+	</div>
+</div>

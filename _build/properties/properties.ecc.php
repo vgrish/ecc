@@ -3,33 +3,45 @@
 $properties = array();
 
 $tmp = array(
-	'tpl' => array(
+	'namespace' => array(
 		'type' => 'textfield',
-		'value' => 'tpl.ecc.item',
+		'value' => 'ecc',
 	),
-	'sortby' => array(
+	'controller' => array(
 		'type' => 'textfield',
-		'value' => 'name',
+		'value' => 'default',
 	),
-	'sortdir' => array(
+	'path' => array(
+		'type' => 'textfield',
+		'value' => 'controllers/welcome',
+	),
+	'tplOuter' => array(
+		'type' => 'textfield',
+		'value' => 'ecc.wrapper',
+	),
+	'frontendCss' => array(
+		'type' => 'textfield',
+		'value' => '',
+	),
+	'frontendJs' => array(
+		'type' => 'textfield',
+		'value' => '',
+	),
+	'mainCss' => array(
+		'type' => 'textfield',
+		'value' => '',
+	),
+	'mainJs' => array(
+		'type' => 'textfield',
+		'value' => '',
+	),
+	'location' => array(
 		'type' => 'list',
 		'options' => array(
-			array('text' => 'ASC', 'value' => 'ASC'),
-			array('text' => 'DESC', 'value' => 'DESC'),
+			array('text' => 'in','value' => '0'),
+			array('text' => 'out','value' => '1'),
 		),
-		'value' => 'ASC'
-	),
-	'limit' => array(
-		'type' => 'numberfield',
-		'value' => 10,
-	),
-	'outputSeparator' => array(
-		'type' => 'textfield',
-		'value' => "\n",
-	),
-	'toPlaceholder' => array(
-		'type' => 'combo-boolean',
-		'value' => false,
+		'value' => '0',
 	),
 );
 
