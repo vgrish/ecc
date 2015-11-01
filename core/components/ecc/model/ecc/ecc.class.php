@@ -5,7 +5,6 @@
  */
 class ecc
 {
-
 	/* @var modX $modx */
 	public $modx;
 	/** @var string $namespace */
@@ -155,6 +154,9 @@ class ecc
 		return !empty($this->isBaseController) AND class_exists($baseControllerClass);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function loadController()
 	{
 		if (!$this->isBaseController) {
@@ -181,6 +183,10 @@ class ecc
 		return false;
 	}
 
+	/**
+	 * @param array $request
+	 * @return array|string
+	 */
 	public function handleRequest(array $request = array())
 	{
 		foreach (array_keys($this->opts) as $k) {

@@ -1,6 +1,9 @@
-var ecc = function(config) {
+Ext.namespace('ecc');
+
+ecc = function(config) {
 	config = config || {};
 	ecc.superclass.constructor.call(this, config);
+	this.config = config;
 };
 Ext.extend(ecc, Ext.Component, {
 	page: {},
