@@ -1,4 +1,4 @@
-## ecc
+## ECC - Easy Custom Controller (MODx Revolution)
 
 пример - приветствие
 ```
