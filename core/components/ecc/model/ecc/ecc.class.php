@@ -454,7 +454,7 @@ class ecc
 			return false;
 		}
 
-		$this->modx->regClientCSS($this->config['assetsUrl'] . 'lib/extjs/css/ext-all-notheme.css');
+		$this->modx->regClientCSS($this->config['assetsUrl'] . 'vendor/extjs/css/ext-all-notheme.css');
 		$config = $this->makePlaceholders($this->config);
 		if ($css = $this->getOption('mainCss', null, '', true)) {
 			$this->modx->regClientCSS(str_replace($config['pl'], $config['vl'], $css));
@@ -491,7 +491,9 @@ class ecc
 			$this->addClientJs(array(
 				$this->config['assetsUrl'] . 'vendor/extjs/js/default.js',
 				$this->config['assetsUrl'] . 'vendor/extjs/js/default.utils.js',
-				$this->config['assetsUrl'] . 'vendor/extjs/js/default.combo.js'
+				$this->config['assetsUrl'] . 'vendor/extjs/js/default.combo.js',
+				$this->config['assetsUrl'] . 'vendor/extjs/js/default.grid.js',
+				$this->config['assetsUrl'] . 'vendor/extjs/js/default.window.js',
 			), 'lib/ecc');
 		}
 
