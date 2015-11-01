@@ -32,15 +32,18 @@ class CurrencyRateController extends eccBaseController
 	}
 
 	/** @inheritdoc} */
+	public function getLanguageTopics() {
+		return array('currencyrate:default');
+	}
+
+	/** @inheritdoc} */
 	public function DefaultAction()
 	{
 		$this->modx->regClientCSS(MODX_ASSETS_URL . 'components/currencyrate/css/mgr/main.css');
 		$this->modx->regClientCSS(MODX_ASSETS_URL . 'components/currencyrate/css/mgr/bootstrap.buttons.css');
 
 		$this->ecc->addClientExtJS();
-		$this->ecc->addClientLexicon(array(
-			'currencyrate:default',
-		), 'lexicon/lexicon');
+		$this->ecc->addClientLexicon($this->getLanguageTopics(),'lexicon/lexicon');
 
 		$this->ecc->addClientJs(array(
 			MODX_ASSETS_URL . 'components/currencyrate/js/mgr/currencyrate.js',
