@@ -202,7 +202,7 @@ class ecc
 				case (empty($this->opts['controller']) AND empty($this->opts['action'])):
 					$this->opts['controller'] = $controller->getDefaultAction();
 					break;
-				case (empty($this->controller) AND !empty($this->opts['action'])):
+				case (empty($this->opts['controller']) AND !empty($this->opts['action'])):
 					$this->opts['controller'] = $controller->getDefaultProcessorAction();
 					break;
 			}
