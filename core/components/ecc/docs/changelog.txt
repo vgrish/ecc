@@ -1,0 +1,5 @@
+Changelog for ECC
+
+1.0.0-beta
+==============
+- Initial
