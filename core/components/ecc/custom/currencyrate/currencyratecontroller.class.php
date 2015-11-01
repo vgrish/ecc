@@ -65,8 +65,11 @@ class CurrencyRateController extends eccBaseController
 		$this->regBottomScript("
 			Ext.onReady(function () {
 				currencyrate.config = currencyrateConfig || {};
-				var panel = new currencyrate.panel.Home();
-				panel.render(\"{$this->config['wrapperId']}\");
+				Ext.ComponentMgr.create({
+					xtype: 'panel',
+					renderTo: \"{$this->config['wrapperId']}\",
+					items: [new currencyrate.panel.Home()]
+				}).doLayout();
 				var preloader = document.getElementById(\"{$this->config['wrapperId']}\").querySelectorAll(\".ecc-preloader\");
 				if (preloader) {
 					preloader[0].parentNode.removeChild(preloader[0]);

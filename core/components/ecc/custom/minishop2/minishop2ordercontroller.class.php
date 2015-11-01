@@ -77,8 +77,11 @@ class MiniShop2OrderController extends eccBaseController
 		$this->regBottomScript("
 			Ext.onReady(function () {
 				miniShop2.config = miniShop2Config || {};
-				var panel = new miniShop2.panel.Orders();
-				panel.render(\"{$this->config['wrapperId']}\");
+				Ext.ComponentMgr.create({
+					xtype: 'panel',
+					renderTo: \"{$this->config['wrapperId']}\",
+					items: [new miniShop2.panel.Orders()]
+				}).doLayout();
 				var preloader = document.getElementById(\"{$this->config['wrapperId']}\").querySelectorAll(\".ecc-preloader\");
 				if (preloader) {
 					preloader[0].parentNode.removeChild(preloader[0]);
