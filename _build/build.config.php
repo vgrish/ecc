@@ -1,7 +1,7 @@
 <?php
 
 /* define package */
-define('PKG_NAME', 'ECC');
+define('PKG_NAME', 'ecc');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
 define('PKG_VERSION', '1.0.0');

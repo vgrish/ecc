@@ -81,7 +81,6 @@ class ecc
 	 * @param $key
 	 * @param array $config
 	 * @param null $default
-	 *
 	 * @return mixed|null
 	 */
 	public function getOption($key, $config = array(), $default = null)
@@ -104,7 +103,6 @@ class ecc
 	 *
 	 * @param string $ctx The context to load. Defaults to web.
 	 * @param array $scriptProperties
-	 *
 	 * @return boolean
 	 */
 	public function initialize($ctx = 'web', $scriptProperties = array())
@@ -145,13 +143,160 @@ class ecc
 		return true;
 	}
 
+	/**
+	 * Loads an instance of baseController
+	 * @return boolean
+	 */
+	public function loadBaseController()
+	{
+		$baseControllerClass = $this->getOption('defaultClassBaseController', null, 'eccBaseController');
+		if (!$this->isBaseController OR !class_exists($baseControllerClass)) {
+			$this->isBaseController = $this->modx->loadClass($baseControllerClass, $this->config['controllersPath'], true, true);
+		}
+		return !empty($this->isBaseController) AND class_exists($baseControllerClass);
+	}
+
+	public function loadController()
+	{
+		if (!$this->isBaseController) {
+			$this->loadBaseController();
+		}
+
+		$baseControllerClass = $this->getOption('defaultClassBaseController', null, 'eccBaseController');
+		if (!$namespace = $this->modx->getObject('modNamespace', array('name' => $this->opts['namespace']))) {
+			$this->modx->log(modX::LOG_LEVEL_ERROR, "[ecc] Not found modNamespace: {$this->opts['namespace']}");
+			return false;
+		}
+
+		$locationControllerClass = $this->getOption('location', null, 0);
+		$path = empty($locationControllerClass) ? $this->getOption('corePath', null, '') : $namespace->getCorePath();
+		if ($class = $this->modx->loadClass($this->opts['path'], $path, true, true)) {
+			$controller = new $class($this->modx, $this->config);
+			if ($controller instanceof $baseControllerClass AND $controller->initialize()) {
+				return $controller;
+			} else {
+				$this->modx->log(modX::LOG_LEVEL_ERROR, "[ecc] Controller in {$class} must be an instance of {$baseControllerClass}");
+			}
+		}
+
+		return false;
+	}
+
 	public function handleRequest(array $request = array())
 	{
+		foreach (array_keys($this->opts) as $k) {
+			$this->opts[$k] = strtolower(trim(trim(str_replace('/', '.', $request[$k]), '.')));
+		}
+		/** @var eccBaseController $controller */
+		if ($controller = $this->loadController()) {
 
+			switch (true) {
+				case (strtolower($this->opts['controller']) == 'default'):
+					$this->opts['controller'] = $controller->getDefaultAction();
+					break;
+				case (empty($this->opts['controller']) AND empty($this->opts['action'])):
+					$this->opts['controller'] = $controller->getDefaultAction();
+					break;
+				case (empty($this->controller) AND !empty($this->opts['action'])):
+					$this->opts['controller'] = $controller->getDefaultProcessorAction();
+					break;
+			}
+
+			$controller->setConfig(array_merge($this->config, $request, array('opts' => $this->opts)));
+			if (method_exists($controller, $this->opts['controller'])) {
+				return $controller->{$this->opts['controller']}($request);
+			} else {
+				return $this->failure("Could not find method {$this->opts['controller']}", $this->opts);
+			}
+		}
+
+		return $this->failure("Could not load controller {$this->opts['controller']}", $this->opts);
+	}
+
+	/**
+	 * Shorthand for the call of processor
+	 *
+	 * @param string $action Path to processor
+	 * @param array $data Data to be transmitted to the processor
+	 * @return mixed The result of the processor
+	 */
+	public function runProcessor($action = '', $data = array(), $json = true)
+	{
+		if (empty($action)) {
+			return false;
+		}
+		$this->modx->error->reset();
+		/* @var modProcessorResponse $response */
+		$response = $this->modx->runProcessor($action, $data, array('processors_path' => $this->config['processorsPath']));
+
+		if (!$json) {
+			$this->setJsonResponse(false);
+		}
+		$result = $this->config['prepareResponse'] ? $this->prepareResponse($response) : $response;
+		$this->setJsonResponse();
+		return $result;
+	}
+
+	/**
+	 * This method returns prepared response
+	 *
+	 * @param mixed $response
+	 * @return array|string $response
+	 */
+	public function prepareResponse($response)
+	{
+		if ($response instanceof modProcessorResponse) {
+			$output = $response->getResponse();
+		} else {
+			$message = $response;
+			if (empty($message)) {
+				$message = $this->lexicon('err_unknown');
+			}
+			$output = $this->failure($message);
+		}
+		if ($this->config['jsonResponse'] AND is_array($output)) {
+			$output = $this->modx->toJSON($output);
+		} elseif (!$this->config['jsonResponse'] AND !is_array($output)) {
+			$output = $this->modx->fromJSON($output);
+		}
+		return $output;
+	}
+
+	/**
+	 * from https://github.com/bezumkin/pdoTools/blob/f947b2abd9511919de56cbb85682e5d0ef52ebf4/core/components/pdotools/model/pdotools/pdotools.class.php#L282
+	 *
+	 * Transform array to placeholders
+	 *
+	 * @param array $array
+	 * @param string $plPrefix
+	 * @param string $prefix
+	 * @param string $suffix
+	 * @param bool $uncacheable
+	 * @return array
+	 */
+	public function makePlaceholders(array $array = array(), $plPrefix = '', $prefix = '[[+', $suffix = ']]', $uncacheable = true)
+	{
+		$result = array('pl' => array(), 'vl' => array());
+		$uncached_prefix = str_replace('[[', '[[!', $prefix);
+		foreach ($array as $k => $v) {
+			if (is_array($v)) {
+				$result = array_merge_recursive($result, $this->makePlaceholders($v, $plPrefix . $k . '.', $prefix, $suffix, $uncacheable));
+			} else {
+				$pl = $plPrefix . $k;
+				$result['pl'][$pl] = $prefix . $pl . $suffix;
+				$result['vl'][$pl] = $v;
+				if ($uncacheable) {
+					$result['pl']['!' . $pl] = $uncached_prefix . $pl . $suffix;
+					$result['vl']['!' . $pl] = $v;
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
 	 * return lexicon message if possibly
+	 *
 	 * @param $message
 	 * @param array $placeholders
 	 * @return string
