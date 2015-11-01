@@ -58,7 +58,7 @@ abstract class eccBaseController
 	/** @inheritdoc} */
 	public function getLanguageTopics()
 	{
-		return array('ecc');
+		return array('ecc:default');
 	}
 
 	/** @inheritdoc} */

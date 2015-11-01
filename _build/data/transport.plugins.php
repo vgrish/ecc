@@ -2,15 +2,14 @@
 
 $plugins = array();
 
-$tmp = array(/*
+$tmp = array(
 	'ecc' => array(
 		'file' => 'ecc',
 		'description' => '',
 		'events' => array(
-			'OnManagerPageInit' => array()
+			'OnBeforeCacheUpdate' => array(),
 		)
 	)
-	*/
 );
 
 foreach ($tmp as $k => $v) {
