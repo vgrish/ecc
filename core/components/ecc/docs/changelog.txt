@@ -1,5 +1,10 @@
 Changelog for ECC
 
+1.0.1-beta
+==============
+- Add ajaxform
+- Add pnotify
+
 1.0.0-beta
 ==============
 - Initial
