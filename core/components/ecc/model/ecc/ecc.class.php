@@ -169,8 +169,8 @@ class ecc
 			return false;
 		}
 
-		$locationControllerClass = $this->getOption('location', null, 0);
-		$path = empty($locationControllerClass) ? $this->getOption('corePath', null, '') : $namespace->getCorePath();
+		$locationControllerClass = $this->getOption('location', $this->opts, 0);
+		$path = empty($locationControllerClass) ? $this->getOption('corePath', $this->opts, '') : $namespace->getCorePath();
 		if ($class = $this->modx->loadClass($this->opts['path'], $path, true, true)) {
 			$controller = new $class($this->modx, $this->config);
 			if ($controller instanceof $baseControllerClass AND $controller->initialize()) {
