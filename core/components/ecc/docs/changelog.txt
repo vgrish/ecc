@@ -1,5 +1,9 @@
 Changelog for ECC
 
+1.0.2-beta
+==============
+- Small fix
+
 1.0.1-beta
 ==============
 - Add ajaxform

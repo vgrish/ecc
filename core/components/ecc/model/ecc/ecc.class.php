@@ -221,18 +221,24 @@ class ecc
 	/**
 	 * Shorthand for the call of processor
 	 *
+	 * @access public
+	 *
 	 * @param string $action Path to processor
 	 * @param array $data Data to be transmitted to the processor
+	 *
 	 * @return mixed The result of the processor
 	 */
-	public function runProcessor($action = '', $data = array(), $json = true)
+	public function runProcessor($action = '', $data = array(), $json = true, $path = '')
 	{
 		if (empty($action)) {
 			return false;
 		}
+
 		$this->modx->error->reset();
 		/* @var modProcessorResponse $response */
-		$response = $this->modx->runProcessor($action, $data, array('processors_path' => $this->config['processorsPath']));
+		$response = $this->modx->runProcessor($action, $data, array(
+			'processors_path' => !empty($path) ? $path : $this->config['processorsPath']
+		));
 
 		if (!$json) {
 			$this->setJsonResponse(false);
