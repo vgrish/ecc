@@ -13,7 +13,7 @@ abstract class eccBaseController
 	public $opts = array();
 
 	/**
-	 * @param $n
+	 * @param       $n
 	 * @param array $p
 	 */
 	public function __call($n, array$p)
@@ -22,7 +22,7 @@ abstract class eccBaseController
 	}
 
 	/**
-	 * @param modX $modx
+	 * @param modX  $modx
 	 * @param array $config
 	 */
 	function __construct(modX &$modx, $config = array())

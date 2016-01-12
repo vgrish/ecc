@@ -4,7 +4,7 @@ $chunks = array();
 
 $tmp = array(
 	'ecc.wrapper' => array(
-		'file' => 'wrapper',
+		'file'        => 'wrapper',
 		'description' => '',
 	),
 );
@@ -16,12 +16,12 @@ foreach ($tmp as $k => $v) {
 	/* @avr modChunk $chunk */
 	$chunk = $modx->newObject('modChunk');
 	$chunk->fromArray(array(
-		'id' => 0,
-		'name' => $k,
+		'id'          => 0,
+		'name'        => $k,
 		'description' => @$v['description'],
-		'snippet' => file_get_contents($sources['source_core'] . '/elements/chunks/chunk.' . $v['file'] . '.tpl'),
-		'static' => BUILD_CHUNK_STATIC,
-		'source' => 1,
+		'snippet'     => file_get_contents($sources['source_core'] . '/elements/chunks/chunk.' . $v['file'] . '.tpl'),
+		'static'      => BUILD_CHUNK_STATIC,
+		'source'      => 1,
 		'static_file' => 'core/components/' . PKG_NAME_LOWER . '/elements/chunks/chunk.' . $v['file'] . '.tpl',
 	), '', true, true);
 

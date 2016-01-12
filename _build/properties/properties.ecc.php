@@ -3,53 +3,53 @@
 $properties = array();
 
 $tmp = array(
-	'namespace' => array(
-		'type' => 'textfield',
+	'namespace'   => array(
+		'type'  => 'textfield',
 		'value' => 'ecc',
 	),
-	'controller' => array(
-		'type' => 'textfield',
+	'controller'  => array(
+		'type'  => 'textfield',
 		'value' => 'default',
 	),
-	'path' => array(
-		'type' => 'textfield',
+	'path'        => array(
+		'type'  => 'textfield',
 		'value' => 'controllers/welcome',
 	),
-	'tplOuter' => array(
-		'type' => 'textfield',
+	'tplOuter'    => array(
+		'type'  => 'textfield',
 		'value' => 'ecc.wrapper',
 	),
 	'frontendCss' => array(
-		'type' => 'textfield',
+		'type'  => 'textfield',
 		'value' => '',
 	),
-	'frontendJs' => array(
-		'type' => 'textfield',
+	'frontendJs'  => array(
+		'type'  => 'textfield',
 		'value' => '',
 	),
-	'mainCss' => array(
-		'type' => 'textfield',
+	'mainCss'     => array(
+		'type'  => 'textfield',
 		'value' => '',
 	),
-	'mainJs' => array(
-		'type' => 'textfield',
+	'mainJs'      => array(
+		'type'  => 'textfield',
 		'value' => '',
 	),
-	'location' => array(
-		'type' => 'list',
+	'location'    => array(
+		'type'    => 'list',
 		'options' => array(
-			array('text' => 'in','value' => '0'),
-			array('text' => 'out','value' => '1'),
+			array('text' => 'in', 'value' => '0'),
+			array('text' => 'out', 'value' => '1'),
 		),
-		'value' => '0',
+		'value'   => '0',
 	),
 );
 
 foreach ($tmp as $k => $v) {
 	$properties[] = array_merge(
 		array(
-			'name' => $k,
-			'desc' => PKG_NAME_LOWER . '_prop_' . $k,
+			'name'    => $k,
+			'desc'    => PKG_NAME_LOWER . '_prop_' . $k,
 			'lexicon' => PKG_NAME_LOWER . ':properties',
 		), $v
 	);

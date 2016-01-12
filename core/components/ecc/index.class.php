@@ -3,7 +3,8 @@
 /**
  * Class eccMainController
  */
-abstract class eccMainController extends modExtraManagerController {
+abstract class eccMainController extends modExtraManagerController
+{
 	/** @var ecc $ecc */
 	public $ecc;
 
@@ -11,7 +12,8 @@ abstract class eccMainController extends modExtraManagerController {
 	/**
 	 * @return void
 	 */
-	public function initialize() {
+	public function initialize()
+	{
 		$corePath = $this->modx->getOption('ecc_core_path', null, $this->modx->getOption('core_path') . 'components/ecc/');
 		require_once $corePath . 'model/ecc/ecc.class.php';
 
@@ -32,7 +34,8 @@ abstract class eccMainController extends modExtraManagerController {
 	/**
 	 * @return array
 	 */
-	public function getLanguageTopics() {
+	public function getLanguageTopics()
+	{
 		return array('ecc:default');
 	}
 
@@ -40,7 +43,8 @@ abstract class eccMainController extends modExtraManagerController {
 	/**
 	 * @return bool
 	 */
-	public function checkPermissions() {
+	public function checkPermissions()
+	{
 		return true;
 	}
 }
@@ -49,12 +53,14 @@ abstract class eccMainController extends modExtraManagerController {
 /**
  * Class IndexManagerController
  */
-class IndexManagerController extends eccMainController {
+class IndexManagerController extends eccMainController
+{
 
 	/**
 	 * @return string
 	 */
-	public static function getDefaultController() {
+	public static function getDefaultController()
+	{
 		return 'home';
 	}
 }

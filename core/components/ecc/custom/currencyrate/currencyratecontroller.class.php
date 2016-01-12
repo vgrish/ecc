@@ -10,9 +10,9 @@ class CurrencyRateController extends eccBaseController
 
 		$config = $this->modx->toJSON(array(
 			'connectorUrl' => $this->config['actionUrl'],
-			'namespace' => $this->config['namespace'],
-			'controller' => $this->config['controller'],
-			'path' => $this->config['path'],
+			'namespace'    => $this->config['namespace'],
+			'controller'   => $this->config['controller'],
+			'path'         => $this->config['path'],
 		));
 		$this->regTopScript("eccConfig.{$this->config['namespace']}={$config};");
 
@@ -24,7 +24,7 @@ class CurrencyRateController extends eccBaseController
 
 		$config = $this->modx->toJSON(array(
 			'connector_url' => $this->config['actionUrl'],
-			'last_date' => $currencyrate->config['last_date'],
+			'last_date'     => $currencyrate->config['last_date'],
 		));
 		$this->regTopScript("currencyrateConfig={$config};");
 
@@ -32,7 +32,8 @@ class CurrencyRateController extends eccBaseController
 	}
 
 	/** @inheritdoc} */
-	public function getLanguageTopics() {
+	public function getLanguageTopics()
+	{
 		return array('currencyrate:default');
 	}
 
@@ -43,7 +44,7 @@ class CurrencyRateController extends eccBaseController
 		$this->modx->regClientCSS(MODX_ASSETS_URL . 'components/currencyrate/css/mgr/bootstrap.buttons.css');
 
 		$this->ecc->addClientExtJS();
-		$this->ecc->addClientLexicon($this->getLanguageTopics(),'lexicon/lexicon');
+		$this->ecc->addClientLexicon($this->getLanguageTopics(), 'lexicon/lexicon');
 
 		$this->ecc->addClientJs(array(
 			MODX_ASSETS_URL . 'components/currencyrate/js/mgr/currencyrate.js',

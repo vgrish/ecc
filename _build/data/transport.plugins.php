@@ -4,9 +4,9 @@ $plugins = array();
 
 $tmp = array(
 	'ecc' => array(
-		'file' => 'ecc',
+		'file'        => 'ecc',
 		'description' => '',
-		'events' => array(
+		'events'      => array(
 			'OnBeforeCacheUpdate' => array(),
 		)
 	)
@@ -16,12 +16,12 @@ foreach ($tmp as $k => $v) {
 	/* @avr modplugin $plugin */
 	$plugin = $modx->newObject('modPlugin');
 	$plugin->fromArray(array(
-		'name' => $k,
-		'category' => 0,
+		'name'        => $k,
+		'category'    => 0,
 		'description' => @$v['description'],
-		'plugincode' => getSnippetContent($sources['source_core'] . '/elements/plugins/plugin.' . $v['file'] . '.php'),
-		'static' => BUILD_PLUGIN_STATIC,
-		'source' => 1,
+		'plugincode'  => getSnippetContent($sources['source_core'] . '/elements/plugins/plugin.' . $v['file'] . '.php'),
+		'static'      => BUILD_PLUGIN_STATIC,
+		'source'      => 1,
 		'static_file' => 'core/components/' . PKG_NAME_LOWER . '/elements/plugins/plugin.' . $v['file'] . '.php'
 	), '', true, true);
 
@@ -32,8 +32,8 @@ foreach ($tmp as $k => $v) {
 			$event = $modx->newObject('modPluginEvent');
 			$event->fromArray(array_merge(
 				array(
-					'event' => $k2,
-					'priority' => 0,
+					'event'       => $k2,
+					'priority'    => 0,
 					'propertyset' => 0,
 				), $v2
 			), '', true, true);

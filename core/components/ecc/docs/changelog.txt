@@ -1,5 +1,9 @@
 Changelog for ECC
 
+1.0.3-beta
+==============
+- Remove PNotify vendor
+
 1.0.2-beta
 ==============
 - Small fix

@@ -13,11 +13,11 @@ class ecc
 	public $config = array();
 	/** @var array $opts */
 	public $opts = array(
-		'namespace' => null,
+		'namespace'  => null,
 		'controller' => null,
-		'location' => null,
-		'path' => null,
-		'action' => null,
+		'location'   => null,
+		'path'       => null,
+		'action'     => null,
 	);
 	/** @var array $initialized */
 	public $initialized = array();
@@ -25,7 +25,7 @@ class ecc
 	public $isBaseController = false;
 
 	/**
-	 * @param modX $modx
+	 * @param modX  $modx
 	 * @param array $config
 	 */
 	function __construct(modX &$modx, array $config = array())
@@ -38,26 +38,26 @@ class ecc
 		$assetsPath = MODX_ASSETS_PATH;
 
 		$this->config = array_merge(array(
-			'assetsUrl' => $assetsUrl,
-			'cssUrl' => $assetsUrl . 'css/',
-			'jsUrl' => $assetsUrl . 'js/',
-			'imagesUrl' => $assetsUrl . 'images/',
-			'connectorUrl' => $connectorUrl,
-			'actionUrl' => $assetsUrl . 'action.php',
+			'assetsUrl'       => $assetsUrl,
+			'cssUrl'          => $assetsUrl . 'css/',
+			'jsUrl'           => $assetsUrl . 'js/',
+			'imagesUrl'       => $assetsUrl . 'images/',
+			'connectorUrl'    => $connectorUrl,
+			'actionUrl'       => $assetsUrl . 'action.php',
 
-			'corePath' => $corePath,
-			'modelPath' => $corePath . 'model/',
-			'chunksPath' => $corePath . 'elements/chunks/',
-			'templatesPath' => $corePath . 'elements/templates/',
-			'snippetsPath' => $corePath . 'elements/snippets/',
-			'processorsPath' => $corePath . 'processors/',
+			'corePath'        => $corePath,
+			'modelPath'       => $corePath . 'model/',
+			'chunksPath'      => $corePath . 'elements/chunks/',
+			'templatesPath'   => $corePath . 'elements/templates/',
+			'snippetsPath'    => $corePath . 'elements/snippets/',
+			'processorsPath'  => $corePath . 'processors/',
 
 			'controllersPath' => $corePath . 'controllers/',
 			'assetsCachePath' => $assetsPath . 'components/ecc/cache/',
-			'assetsCacheUrl' => $assetsUrl . 'cache/',
+			'assetsCacheUrl'  => $assetsUrl . 'cache/',
 
 			'prepareResponse' => true,
-			'jsonResponse' => true,
+			'jsonResponse'    => true,
 
 		), $config);
 
@@ -67,7 +67,7 @@ class ecc
 	}
 
 	/**
-	 * @param $n
+	 * @param       $n
 	 * @param array $p
 	 */
 	public function __call($n, array$p)
@@ -76,9 +76,10 @@ class ecc
 	}
 
 	/**
-	 * @param $key
+	 * @param       $key
 	 * @param array $config
-	 * @param null $default
+	 * @param null  $default
+	 *
 	 * @return mixed|null
 	 */
 	public function getOption($key, $config = array(), $default = null)
@@ -93,6 +94,7 @@ class ecc
 				$option = $this->modx->getOption("{$this->namespace}_{$key}");
 			}
 		}
+
 		return $option;
 	}
 
@@ -100,7 +102,8 @@ class ecc
 	 * Initializes component into different contexts.
 	 *
 	 * @param string $ctx The context to load. Defaults to web.
-	 * @param array $scriptProperties
+	 * @param array  $scriptProperties
+	 *
 	 * @return boolean
 	 */
 	public function initialize($ctx = 'web', $scriptProperties = array())
@@ -143,6 +146,7 @@ class ecc
 
 	/**
 	 * Loads an instance of baseController
+	 *
 	 * @return boolean
 	 */
 	public function loadBaseController()
@@ -151,6 +155,7 @@ class ecc
 		if (!$this->isBaseController OR !class_exists($baseControllerClass)) {
 			$this->isBaseController = $this->modx->loadClass($baseControllerClass, $this->config['controllersPath'], true, true);
 		}
+
 		return !empty($this->isBaseController) AND class_exists($baseControllerClass);
 	}
 
@@ -166,6 +171,7 @@ class ecc
 		$baseControllerClass = $this->getOption('defaultClassBaseController', null, 'eccBaseController');
 		if (!$namespace = $this->modx->getObject('modNamespace', array('name' => $this->opts['namespace']))) {
 			$this->modx->log(modX::LOG_LEVEL_ERROR, "[ecc] Not found modNamespace: {$this->opts['namespace']}");
+
 			return false;
 		}
 
@@ -185,6 +191,7 @@ class ecc
 
 	/**
 	 * @param array $request
+	 *
 	 * @return array|string
 	 */
 	public function handleRequest(array $request = array())
@@ -224,7 +231,7 @@ class ecc
 	 * @access public
 	 *
 	 * @param string $action Path to processor
-	 * @param array $data Data to be transmitted to the processor
+	 * @param array  $data Data to be transmitted to the processor
 	 *
 	 * @return mixed The result of the processor
 	 */
@@ -245,6 +252,7 @@ class ecc
 		}
 		$result = $this->config['prepareResponse'] ? $this->prepareResponse($response) : $response;
 		$this->setJsonResponse();
+
 		return $result;
 	}
 
@@ -252,6 +260,7 @@ class ecc
 	 * This method returns prepared response
 	 *
 	 * @param mixed $response
+	 *
 	 * @return array|string $response
 	 */
 	public function prepareResponse($response)
@@ -270,19 +279,22 @@ class ecc
 		} elseif (!$this->config['jsonResponse'] AND !is_array($output)) {
 			$output = $this->modx->fromJSON($output);
 		}
+
 		return $output;
 	}
 
 	/**
-	 * from https://github.com/bezumkin/pdoTools/blob/f947b2abd9511919de56cbb85682e5d0ef52ebf4/core/components/pdotools/model/pdotools/pdotools.class.php#L282
+	 * from
+	 * https://github.com/bezumkin/pdoTools/blob/f947b2abd9511919de56cbb85682e5d0ef52ebf4/core/components/pdotools/model/pdotools/pdotools.class.php#L282
 	 *
 	 * Transform array to placeholders
 	 *
-	 * @param array $array
+	 * @param array  $array
 	 * @param string $plPrefix
 	 * @param string $prefix
 	 * @param string $suffix
-	 * @param bool $uncacheable
+	 * @param bool   $uncacheable
+	 *
 	 * @return array
 	 */
 	public function makePlaceholders(array $array = array(), $plPrefix = '', $prefix = '[[+', $suffix = ']]', $uncacheable = true)
@@ -302,14 +314,18 @@ class ecc
 				}
 			}
 		}
+
 		return $result;
 	}
 
 	/**
-	 * from https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L279
+	 * from
+	 * https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L279
 	 *
 	 * Merges and minimizes given scripts or css and returns raw content
+	 *
 	 * @param array $files
+	 *
 	 * @return mixed|bool
 	 */
 	public function Minify($files = array())
@@ -332,7 +348,7 @@ class ecc
 		// attempt to prevent suhosin issues
 		@ini_set('suhosin.get.max_value_length', 4096);
 		$min_serveOptions = array(
-			'quiet' => true,
+			'quiet'        => true,
 			'encodeMethod' => '',
 		);
 		if (!file_exists(MODX_CORE_PATH . 'cache/minify')) {
@@ -347,14 +363,16 @@ class ecc
 			}
 		}
 		$content = implode("\n", $content);
+
 		return $content;
 	}
 
 	/**
 	 * Merges, minimizes and registers javascript for use in controllers
 	 *
-	 * @param array $files
+	 * @param array  $files
 	 * @param string $file
+	 *
 	 * @return bool
 	 */
 	public function addClientJs($files = array(), $file = 'main/all')
@@ -379,8 +397,9 @@ class ecc
 	/**
 	 * Merges, minimizes and registers css for use in controllers
 	 *
-	 * @param array $files
+	 * @param array  $files
 	 * @param string $file
+	 *
 	 * @return bool
 	 */
 	public function addClientCss($files = array(), $file = 'main/all')
@@ -403,12 +422,14 @@ class ecc
 	}
 
 	/**
-	 * from https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L389
+	 * from
+	 * https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L389
 	 *
 	 * Registers lexicon entries for use in controllers
 	 *
-	 * @param array $topics
+	 * @param array  $topics
 	 * @param string $file
+	 *
 	 * @return bool
 	 */
 	public function addClientLexicon($topics = array(), $file = 'main/lexicon')
@@ -419,8 +440,7 @@ class ecc
 		if (!preg_match('#.*?\.js#i', $file)) {
 			$file .= '.js';
 		}
-		if (!file_exists(MODX_BASE_PATH . ltrim($this->getCacheUrl() . $file, '/')))
-		{
+		if (!file_exists(MODX_BASE_PATH . ltrim($this->getCacheUrl() . $file, '/'))) {
 			$topics = array_merge(array('core:default'), $topics);
 			foreach ($topics as $topic) {
 				$this->modx->lexicon->load($topic);
@@ -455,9 +475,11 @@ class ecc
 
 
 	/**
-	 * from https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L429
+	 * from
+	 * https://github.com/bezumkin/Office/blob/0115a0f6998ec8c4176eb9f58a2111570f7a6a0a/core/components/office/model/office/office.class.php#L429
 	 *
 	 * @param string $objectName
+	 *
 	 * @return bool|int
 	 */
 	public function addClientExtJS($objectName = 'ecc')
@@ -514,8 +536,8 @@ class ecc
 
 	/**
 	 *
-	 * @param $file
-	 * @param $data
+	 * @param        $file
+	 * @param        $data
 	 * @param string $path
 	 *
 	 * @return bool|int
@@ -533,11 +555,13 @@ class ecc
 				@mkdir($path);
 			}
 		}
+
 		return file_put_contents($path . '/' . $file, $data);
 	}
 
 	/**
 	 * @param bool $base
+	 *
 	 * @return string
 	 */
 	protected function getCachePath($base = false)
@@ -546,6 +570,7 @@ class ecc
 		if (!$base) {
 			$path[] = $this->getAddPath();
 		}
+
 		return implode('/', $path);
 	}
 
@@ -557,6 +582,7 @@ class ecc
 		$url[] = rtrim($this->config['assetsCacheUrl'], '/');
 		$url[] = $this->getAddPath();
 		$url[] = null;
+
 		return implode('/', $url);
 	}
 
@@ -571,14 +597,16 @@ class ecc
 				$path[] = strtolower($this->opts[$k]);
 			}
 		}
+
 		return implode('/', $path);
 	}
 
 	/**
 	 * return lexicon message if possibly
 	 *
-	 * @param $message
+	 * @param       $message
 	 * @param array $placeholders
+	 *
 	 * @return string
 	 */
 	public function lexicon($message, $placeholders = array())
@@ -592,13 +620,15 @@ class ecc
 		if ($key !== '') {
 			$message = $this->modx->lexicon->process($key, $placeholders);
 		}
+
 		return $message;
 	}
 
 	/**
 	 * @param string $message
-	 * @param array $data
-	 * @param array $placeholders
+	 * @param array  $data
+	 * @param array  $placeholders
+	 *
 	 * @return array|string
 	 */
 	public function failure($message = '', $data = array(), $placeholders = array())
@@ -606,15 +636,17 @@ class ecc
 		$response = array(
 			'success' => false,
 			'message' => $this->lexicon($message, $placeholders),
-			'data' => $data,
+			'data'    => $data,
 		);
+
 		return $this->config['jsonResponse'] ? $this->modx->toJSON($response) : $response;
 	}
 
 	/**
 	 * @param string $message
-	 * @param array $data
-	 * @param array $placeholders
+	 * @param array  $data
+	 * @param array  $placeholders
+	 *
 	 * @return array|string
 	 */
 	public function success($message = '', $data = array(), $placeholders = array())
@@ -622,13 +654,15 @@ class ecc
 		$response = array(
 			'success' => true,
 			'message' => $this->lexicon($message, $placeholders),
-			'data' => $data,
+			'data'    => $data,
 		);
+
 		return $this->config['jsonResponse'] ? $this->modx->toJSON($response) : $response;
 	}
 
 	/**
 	 * @param bool $json
+	 *
 	 * @return bool
 	 */
 	public function setJsonResponse($json = true)

@@ -13,9 +13,9 @@ class MiniShop2OrderController extends eccBaseController
 
 		$config = $this->modx->toJSON(array(
 			'connectorUrl' => $this->config['actionUrl'],
-			'namespace' => $this->config['namespace'],
-			'controller' => $this->config['controller'],
-			'path' => $this->config['path'],
+			'namespace'    => $this->config['namespace'],
+			'controller'   => $this->config['controller'],
+			'path'         => $this->config['path'],
 		));
 		$this->regTopScript("eccConfig.{$this->config['namespace']}={$config};");
 
@@ -34,18 +34,19 @@ class MiniShop2OrderController extends eccBaseController
 		$config = $this->modx->toJSON(array_merge(
 			$this->minishop2->config,
 			array(
-			'connector_url' => $this->config['actionUrl'],
-			'order_grid_fields' => $grid_fields,
-			'order_address_fields' => $address_fields,
-			'order_product_fields' => $product_fields,
-		)));
+				'connector_url'        => $this->config['actionUrl'],
+				'order_grid_fields'    => $grid_fields,
+				'order_address_fields' => $address_fields,
+				'order_product_fields' => $product_fields,
+			)));
 		$this->regTopScript("miniShop2Config={$config};");
 
 		return true;
 	}
 
 	/** @inheritdoc} */
-	public function getLanguageTopics() {
+	public function getLanguageTopics()
+	{
 		return array('minishop2:default', 'minishop2:product', 'minishop2:manager');
 	}
 
@@ -56,7 +57,7 @@ class MiniShop2OrderController extends eccBaseController
 		$this->modx->regClientCSS($this->minishop2->config['cssUrl'] . 'mgr/main.css');
 
 		$this->ecc->addClientExtJS();
-		$this->ecc->addClientLexicon($this->getLanguageTopics(),'lexicon/lexicon');
+		$this->ecc->addClientLexicon($this->getLanguageTopics(), 'lexicon/lexicon');
 
 		$this->ecc->addClientJs(array(
 			MODX_ASSETS_URL . 'components/minishop2/js/mgr/minishop2.js',
